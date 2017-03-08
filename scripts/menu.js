@@ -17,7 +17,7 @@ Menu.prototype = {
 
       //start button
       this.btn = game.add.button(game.world.centerX + 200, game.world.centerY + 150, 'btn', this.playGame, this, 1, 0);
-      this.btn.scale.setTo(1,1);
+      this.btn.scale.setTo(1.3,1.3);
       this.btn.anchor.setTo(0.5, 0.5);
     },
 
