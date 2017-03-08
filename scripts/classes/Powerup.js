@@ -1,5 +1,5 @@
-Powerup = function(game, x, y) {
-
+Powerup = function(game, x, y, kind) {
+  Block.call(this, game, x, y, kind);
 
 }
 
