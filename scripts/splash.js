@@ -3,7 +3,7 @@ Splash = function() {};
 Splash.prototype = {
     preload: function() {
         //spritesheets
-        game.load.spritesheet('btn', 'assets/images/startbtn.png', 1020, 510);
+        game.load.spritesheet('btn', 'assets/images/startbtn.png', 340, 170);
 
         //images
         game.load.image('ball', 'assets/images/ball.png');
