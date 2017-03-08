@@ -5,7 +5,7 @@ Menu.prototype = {
       this.background = game.add.sprite(0, 0, 'black');
       this.ivan = game.add.sprite(game.world.centerX, game.world.centerY, game.head);
       this.ivan.anchor.setTo(0.5, 0.5);
-      this.ivan.scale.setTo(1,1);
+      this.ivan.scale.setTo(1.3,1.3);
 
       var xpos = game.world.centerX - 200;
       var ypos = game.world.centerY;

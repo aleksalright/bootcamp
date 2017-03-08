@@ -62,6 +62,7 @@ Splash.prototype = {
     showIvan: function() {
         var heads = ['ivan', 'pieter', 'karel'];
         game.head = Phaser.ArrayUtils.getRandomItem(heads);
+        this.kdg.kill();
         this.ivan = game.add.sprite(game.world.centerX, game.world.centerY, game.head);
         this.ivan.anchor.setTo(0.5, 0.5);
         this.ivan.scale.setTo(0, 0);
