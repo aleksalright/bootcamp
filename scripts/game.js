@@ -81,11 +81,6 @@ Game.prototype = {
         game.physics.arcade.collide(balls, balls);
         game.physics.arcade.collide(balls, this.panels, this.ballPanelCollision, null, this);
 
-        game.physics.arcade.collide(balls, this.speedups, this.speedUpCollision, null, this);
-        game.physics.arcade.collide(balls, this.slowdowns, this.slowDownCollision, null, this);
-        game.physics.arcade.collide(balls, this.panelsbig, this.panelBigCollision, null, this);
-        game.physics.arcade.collide(balls, this.panelssmall, this.panelSmallCollision, null, this);
-        game.physics.arcade.collide(balls, this.extrahealths, this.extraHealthCollision, null, this);
 
         for (var i = 0; i < this.pointers.length; i++) {
             var pointer = this.pointers[i];
@@ -166,7 +161,7 @@ Game.prototype = {
         } else if (player2.score === 0) {
             game.state.start('P1win');
         }
-        if (c >= 120 && c % 10 === 0) {
+        if (c >= 120 && c % 120 === 0) {
             this.spawnBlock();
         }
         c++;
@@ -192,45 +187,33 @@ Game.prototype = {
         }
         // Check what kind of block it is
         if (spawnable) {
+            var block;
             switch (kind) {
                 case 1:
-                    var block = new Block(game, mapX, mapY, index);
-                    this.blocks.add(block);
-                    game.activeBlocks.push(block);
+                    block = new Block(game, mapX, mapY, index);
                     break;
                 case 2:
-                    var speedUp = new SpeedUp(game, mapX, mapY);
-                    this.speedups.add(speedUp);
-                    game.activeBlocks.push(speedUp);
-
+                    block = new SpeedUp(game, mapX, mapY);
                     break;
                 case 3:
-                    var panelBig = new PanelBig(game, mapX, mapY);
-                    this.panelsbig.add(panelBig);
-                    game.activeBlocks.push(panelBig);
-
+                    block = new PanelBig(game, mapX, mapY);
                     break;
                 case 4:
-                    var panelSmall = new PanelSmall(game, mapX, mapY);
-                    this.panelssmall.add(panelSmall);
-                    game.activeBlocks.push(panelSmall);
-
+                    block = new PanelSmall(game, mapX, mapY);
                     break;
                 case 5:
-                    var slowDown = new SlowDown(game, mapX, mapY);
-                    this.slowdowns.add(slowDown);
-                    game.activeBlocks.push(slowDown);
-
+                    block = new SlowDown(game, mapX, mapY);
                     break;
                 case 6:
-                    var extraHealth = new ExtraHealth(game, mapX, mapY);
-                    this.extrahealths.add(extraHealth);
-                    game.activeBlocks.push(extraHealth);
-
+                    block = new ExtraHealth(game, mapX, mapY);
                     break;
                 default: //do nothing
                     break;
 
+            }
+            if (block) {
+                this.blocks.add(block);
+                game.activeBlocks.push(block);
             }
 
         }
@@ -238,34 +221,11 @@ Game.prototype = {
         return spawnable;
     },
     ballBlockCollision: function(ball, block) {
+        if (block.constructor.name === 'Powerup') {
+          powerUpCollision(ball, block);
+        }
         this.popSound.play();
         block.kill();
-    },
-    speedUpCollision: function(ball, speedup) {
-        this.popSound.play();
-        this.ballspeedUp(ball);
-        speedup.kill();
-    },
-    panelBigCollision: function(ball, panelbig) {
-        this.popSound.play();
-        this.makePalletBig(ball.latest);
-        panelbig.kill();
-
-    },
-    panelSmallCollision: function(ball, panelsmall) {
-        this.popSound.play();
-        this.makePalletSmall(ball.latest);
-        panelsmall.kill();
-    },
-    slowDownCollision: function(ball, slowdown) {
-        this.popSound.play();
-        this.ballslowDown(ball);
-        slowdown.kill();
-    },
-    extraHealthCollision: function(ball, extrahealth) {
-        this.popSound.play();
-        this.getExtraLife(ball.latest);
-        extrahealth.kill();
     },
     ballPanelCollision: function(ball, panel) {
         ball.latest = panel;
@@ -274,35 +234,7 @@ Game.prototype = {
             angle: 720
         }, 500, Phaser.Easing.Linear.None, true);
 
-        var diff = 0;
-
-        if (panel.y < game.world.centerY) {
-            //top
-            if (ball.x < panel.x) {
-                // Ball is on the left-hand side of the paddle
-                diff = panel.x - ball.x;
-                ball.body.velocity.x = (-10 * diff);
-            }
-            if (ball.x > panel.x) {
-                // Ball is on the right-hand side of the paddle
-                diff = ball.x - panel.x;
-                ball.body.velocity.x = (10 * diff);
-            }
-        } else {
-            //botoom
-            if (ball.x < panel.x) {
-                //  Ball is on the left-hand side of the paddle
-                diff = panel.x - ball.x;
-                ball.body.velocity.x = (-10 * diff);
-            }
-            if (ball.x > panel.x) {
-                //  Ball is on the right-hand side of the paddle
-                diff = ball.x - panel.x;
-                ball.body.velocity.x = (10 * diff);
-            }
-        }
-
-        ball.body.velocity.setMagnitude(game.mag);
+        ball.deflect();
     },
     ballspeedUp: function(ball) {
         ball.body.velocity.multiply(1.2, 1.2);

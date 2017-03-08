@@ -21,3 +21,11 @@ Ball.prototype.move = function(x, y = null) {
         this.launched = true;
     }
 };
+
+Ball.prototype.deflect = function(){
+  var panel = this.latest;
+  var diff = this.x - panel.x;
+
+  this.body.velocity.x = 5* diff;
+  this.body.velocity.setMagnitude(game.mag);
+}
