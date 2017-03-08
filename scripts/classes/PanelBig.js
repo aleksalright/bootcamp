@@ -1,5 +1,5 @@
-Powerup = function(game, x, y) {
-    Phaser.Sprite.call(this, game, x, y, 'fast');
+PanelBig = function(game, x, y) {
+    Phaser.Sprite.call(this, game, x, y, 'big');
 
     game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
@@ -9,5 +9,5 @@ Powerup = function(game, x, y) {
     game.add.existing(this);
 }
 
-Powerup.prototype = Object.create(Phaser.Sprite.prototype);
-Powerup.prototype.constructor = Powerup;
+PanelBig.prototype = Object.create(Phaser.Sprite.prototype);
+PanelBig.prototype.constructor = PanelBig;

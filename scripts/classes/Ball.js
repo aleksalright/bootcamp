@@ -7,7 +7,6 @@ Ball = function(game, x, y) {
     // this.body.maxVelocity = new Phaser.Point(1000, 1000);
     this.anchor.setTo(0.5, 0.5);
     this.scale.setTo(game.scaleRatio, game.scaleRatio);
-
     this.launched = false;
     game.add.existing(this);
 }

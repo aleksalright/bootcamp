@@ -1,10 +1,12 @@
-Block = function(game, x, y) {
+Block = function(game, x, y, index) {
     Phaser.Sprite.call(this, game, x, y, 'block');
 
     this.ghost = true;
     this.alpha = 0.3;
-    var tween = game.add.tween(this).to({alpha: 1}, 2000, Phaser.Easing.Bounce.In );
-    tween.onComplete.add(function(){
+    var tween = game.add.tween(this).to({
+        alpha: 1
+    }, 2000, Phaser.Easing.Bounce.In);
+    tween.onComplete.add(function() {
         this.ghost = false;
     }, this);
     tween.start();
@@ -19,3 +21,10 @@ Block = function(game, x, y) {
 
 Block.prototype = Object.create(Phaser.Sprite.prototype);
 Block.prototype.constructor = Block;
+
+Block.prototype.kill = function() {
+    var index = game.activeBlocks.indexOf(this);
+    game.activeBlocks.splice(index, 1);
+    
+    Phaser.Sprite.prototype.kill.call(this);
+}

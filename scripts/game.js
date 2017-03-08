@@ -24,17 +24,21 @@ Game.prototype = {
         this.panels = game.add.group();
         balls = game.add.group();
 
-        this.powerups = game.add.group();
+        this.speedups = game.add.group();
+        this.slowdowns = game.add.group();
+        this.panelsbig = game.add.group();
+        this.panelssmall = game.add.group();
+        this.extrahealths = game.add.group();
 
         this.blocksLayout = [
-            1, 1, 0, 0, 2, 1, 1,
+            6, 6, 6, 6, 6, 6, 6,
             0, 2, 0, 1, 2, 1, 2,
             1, 0, 0, 1, 1, 0, 1,
             0, 1, 1, 1, 2, 1, 1,
-            1, 1, 1, 2, 1, 2, 1,
-            1, 2, 0, 0, 0, 1, 1,
+            1, 1, 1, 2, 3, 4, 5,
+            1, 2, 0, 0, 0, 6, 1,
         ];
-        this.activeBlocks = [];
+        game.activeBlocks = [];
 
         game.time.advancedTiming = true;
         colors = Phaser.Color.HSVColorWheel();
@@ -63,7 +67,11 @@ Game.prototype = {
         game.physics.arcade.collide(balls, balls);
         game.physics.arcade.collide(balls, this.panels, this.ballPanelCollision, null, this);
 
-        game.physics.arcade.collide(balls, this.powerups, this.powerUpCollision, null, this);
+        game.physics.arcade.collide(balls, this.speedups, this.speedUpCollision, null, this);
+        game.physics.arcade.collide(balls, this.slowdowns, this.slowDownCollision, null, this);
+        game.physics.arcade.collide(balls, this.panelsbig, this.panelBigCollision, null, this);
+        game.physics.arcade.collide(balls, this.panelssmall, this.panelSmallCollision, null, this);
+        game.physics.arcade.collide(balls, this.extrahealths, this.extraHealthCollision, null, this);
 
         for (var i = 0; i < this.pointers.length; i++) {
             var pointer = this.pointers[i];
@@ -91,12 +99,12 @@ Game.prototype = {
 
         }, this);
 
-        if (player1.score === 0) {
+        if (player1.score === 10) {
             game.state.start('P2win');
-        } else if (player2.score === 0) {
+        } else if (player2.score === 10) {
             game.state.start('P1win');
         }
-        if (c >= 120 && c % 120 == 0) {
+        if (c >= 120 && c % 10 === 0) {
             this.spawnBlock();
         }
         c++;
@@ -113,9 +121,9 @@ Game.prototype = {
         var mapY = Phaser.Math.mapLinear(y, 0, (this.blocksLayout.length / this.cols) - 1, spacingY, game.height - spacingY);
         var spawnable = true;
 
-        if (this.activeBlocks.length != 0) {
-            for (var i = 0; i < this.activeBlocks.length; i++) {
-                var block = this.activeBlocks[i];
+        if (game.activeBlocks.length != 0) {
+            for (var i = 0; i < game.activeBlocks.length; i++) {
+                var block = game.activeBlocks[i];
                 if (Phaser.Point.distance(block, new Phaser.Point(mapX, mapY)) < 50) {
                     spawnable = false;
                 }
@@ -125,32 +133,81 @@ Game.prototype = {
         if (spawnable) {
             switch (kind) {
                 case 1:
-                    var block = new Block(game, mapX, mapY);
+                    var block = new Block(game, mapX, mapY, index);
                     this.blocks.add(block);
-                    this.activeBlocks.push(block);
+                    game.activeBlocks.push(block);
                     break;
                 case 2:
-                    var powerUp = new Powerup(game, mapX, mapY);
-                    this.powerups.add(powerUp);
+                    var speedUp = new SpeedUp(game, mapX, mapY);
+                    this.speedups.add(speedUp);
+                    game.activeBlocks.push(speedUp);
+
+                    break;
+                case 3:
+                    var panelBig = new PanelBig(game, mapX, mapY);
+                    this.panelsbig.add(panelBig);
+                    game.activeBlocks.push(panelBig);
+
+                    break;
+                case 4:
+                    var panelSmall = new PanelSmall(game, mapX, mapY);
+                    this.panelssmall.add(panelSmall);
+                    game.activeBlocks.push(panelSmall);
+
+                    break;
+                case 5:
+                    var slowDown = new SlowDown(game, mapX, mapY);
+                    this.slowdowns.add(slowDown);
+                    game.activeBlocks.push(slowDown);
+
+                    break;
+                case 6:
+                    var extraHealth = new ExtraHealth(game, mapX, mapY);
+                    this.extrahealths.add(extraHealth);
+                    game.activeBlocks.push(extraHealth);
+
                     break;
                 default: //do nothing
                     break;
+
             }
+
         }
 
-
+        return spawnable;
     },
     ballBlockCollision: function(ball, block) {
         this.popSound.play();
         block.kill();
     },
-    powerUpCollision: function(ball, powerup) {
+    speedUpCollision: function(ball, speedup) {
         this.popSound.play();
         this.ballspeedUp(ball);
-        powerup.kill();
+        speedup.kill();
+    },
+    panelBigCollision: function(ball, panelbig) {
+        this.popSound.play();
+        this.makePalletBig(ball.latest);
+        panelbig.kill();
+
+    },
+    panelSmallCollision: function(ball, panelsmall) {
+        this.popSound.play();
+        this.makePalletSmall(ball.latest);
+        panelsmall.kill();
+    },
+    slowDownCollision: function(ball, slowdown) {
+        this.popSound.play();
+        this.ballslowDown(ball);
+        slowdown.kill();
+    },
+    extraHealthCollision: function(ball, extrahealth) {
+        this.popSound.play();
+        this.getExtraLife(ball.latest);
+        extrahealth.kill();
     },
     ballPanelCollision: function(ball, panel) {
-
+        ball.latest = panel;
         panel.tint = Phaser.Color.getRandomColor();
         this.ballRotate.to({
             angle: 720
@@ -170,9 +227,29 @@ Game.prototype = {
     blockGhosting: function(ball, block) {
         return !block.ghost;
     },
-    vibrateDevice: function(){
-      if (game.device.vibration) {
-          window.navigator.vibrate(100);
-      }
+    vibrateDevice: function() {
+        if (game.device.vibration) {
+            window.navigator.vibrate(100);
+        }
     },
+    makePalletBig: function(panel) {
+        if (panel) {
+            panel.loadTexture('bigPallet');
+        }
+    },
+    makePalletSmall: function(panel) {
+        if (panel) {
+            panel.loadTexture('smallPallet');
+        }
+    },
+    getExtraLife: function(panel) {
+      console.log(panel);
+        if (panel) {
+            panel.score += 1; //?//
+        }
+    },
+    ballslowDown: function(ball) {
+        ball.body.velocity.multiply(0.5, 0.5);
+    }
+
 }
