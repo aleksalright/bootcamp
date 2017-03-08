@@ -34,6 +34,7 @@ Splash.prototype = {
         game.load.script('Ball', 'scripts/classes/Ball.js');
         game.load.script('Block', 'scripts/classes/Block.js');
         game.load.script('Panel', 'scripts/classes/Panel.js');
+        game.load.script('Powerup', 'scripts/classes/Powerup.js');
 
         game.load.script('SpeedUp', 'scripts/classes/SpeedUp.js');
         game.load.script('SlowDown', 'scripts/classes/SlowDown.js');

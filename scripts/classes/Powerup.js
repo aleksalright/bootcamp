@@ -1,4 +1,5 @@
-Powerup = function(game, x, y, index) {
+Powerup = function(game, x, y) {
+
 
 }
 
