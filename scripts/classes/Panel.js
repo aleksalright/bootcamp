@@ -6,7 +6,9 @@ Panel = function(game, x, y, id) {
         font: '64px Verdana',
         fill: '#FFF'
     }
-    this.text = game.add.text(64, 64, `Health ${this.id}: ${this.score}`, styles)
+    var textX = 64;
+    var textY = y > game.world.centerY? game.world.height - 64 - 32: 64;
+    this.text = game.add.text(textX, textY, `Health ${this.id}: ${this.score}`, styles)
     game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
     this.body.immovable = true;
