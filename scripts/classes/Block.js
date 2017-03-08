@@ -1,4 +1,4 @@
-Block = function(game, x, y, index) {
+Block = function(game, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'block');
 
     this.ghost = true;
@@ -25,6 +25,6 @@ Block.prototype.constructor = Block;
 Block.prototype.kill = function() {
     var index = game.activeBlocks.indexOf(this);
     game.activeBlocks.splice(index, 1);
-    
+
     Phaser.Sprite.prototype.kill.call(this);
 }
