@@ -38,7 +38,7 @@ Game.prototype = {
             1, 2, 0, 0, 0, 6, 1,
         ];
         game.activeBlocks = [];
-
+        game.paused = true;
         game.time.advancedTiming = true;
         colors = Phaser.Color.HSVColorWheel();
         index = 0;
@@ -66,10 +66,10 @@ Game.prototype = {
 
 
             }, this)
+            game.paused = false;
         });
     },
     update: function() {
-
         game.physics.arcade.collide(balls, this.blocks, this.ballBlockCollision, this.blockGhosting, this);
         game.physics.arcade.collide(balls, balls);
         game.physics.arcade.collide(balls, this.panels, this.ballPanelCollision, null, this);
@@ -87,65 +87,28 @@ Game.prototype = {
         }
 
         balls.forEach(function(ball) {
+            var dir;
+            var player;
             if (ball.body.blocked.up) {
-                player1.score -= 1;
+                player = player1;
+                dir = 1;
                 ball.latestWall = 'up';
+                this.playerScores(player2);
 
-                textReflect = game.add.text(game.world.centerX, game.world.centerY + 50, '- PHASER -')
-
-                //  Centers the text
-                textReflect.anchor.set(0.5)
-                textReflect.align = 'center'
-                textReflect.scale.y = -1
-
-                //  Our font + size
-                textReflect.font = 'Arial'
-                textReflect.fontWeight = 'bold'
-                textReflect.fill = 'red'
-                textReflect.alpha = 1;
-                game.add.tween(textReflect).to({
-                    alpha: 0
-                }, 2000, Phaser.Easing.Linear.None, true);
-
-                mainBall.x = game.world.centerX
-                mainBall.y = game.world.centerY - game.spacingY / 2;
-                mainBall.body.velocity.setTo(0, 0)
-                mainBall.launched = false
-                player1.updateText();
-                game.camera.shake(0.001, 500);
-                this.vibrateDevice();
             } else if (ball.body.blocked.down) {
-                player2.score -= 1;
+                player = player2;
+                dir = -1;
                 ball.latestWall = 'down';
-                textReflect = game.add.text(game.world.centerX, game.world.centerY + 50, '- PHASER -')
-
-                //  Centers the text
-                textReflect.anchor.set(0.5)
-                textReflect.align = 'center'
-                textReflect.scale.y = -1
-
-                //  Our font + size
-                textReflect.font = 'Arial'
-                textReflect.fontWeight = 'bold'
-                textReflect.fontSize = 70
-                textReflect.fill = 'red'
-                textReflect.alpha = 1;
-                game.add.tween(textReflect).to({
-                    alpha: 0
-                }, 2000, Phaser.Easing.Linear.None, true);
-
-                player2.updateText();
-                game.camera.shake(0.001, 500)
-                mainBall.x = game.world.centerX
-                mainBall.y = game.world.centerY + game.spacingY / 2;
-
-
-                mainBall.body.velocity.setTo(0, 0)
-                mainBall.launched = false
+                this.playerScores(player1);
+            }
+            if (player) {
+                player.score -= 1;
+                player.updateText();
                 game.camera.shake(0.001, 500);
                 this.vibrateDevice();
+                ball.reset(dir);
+                game.paused = true;
             }
-
         }, this);
 
         if (player1.score === 0) {
@@ -153,15 +116,45 @@ Game.prototype = {
         } else if (player2.score === 0) {
             game.state.start('P1win');
         }
-        if (c >= 120 && c % 120 === 0) {
-            this.spawnBlock();
-        }
-        c++;
+        if (!game.paused) {
+            if (c >= 120 && c % 120 === 0) {
+                this.spawnBlock();
+            }
+            c++
+        };
+    },
+    playerScores: function(panel) {
+        var styles = {
+            align: 'center',
+            font: 'Arial',
+            fill: 'red',
+            alpha: 0,
+        };
+
+        var text = game.add.text(game.world.centerX, game.world.centerY + 50, `${panel.id} scores`, styles);
+        text.anchor.set(0.5);
+        text.scale.y = -1;
+
+        game.add.tween(text).to({
+            alpha: 1
+        }, 500, Phaser.Easing.Linear.None, true);
+
+        var timer = this.game.time.create(game);
+        timer.add(800, function() {
+            var kill = game.add.tween(text).to({
+                alpha: 0
+            }, 2000, Phaser.Easing.Linear.None, true);
+            kill.onComplete.add(function() {
+                text.kill();
+            }, this);
+        }, this);
+
+
     },
     spawnBlock: function() {
 
         var index = game.rnd.integerInRange(0, this.blocksLayout.length - 1);
-        var kind = this.blocksLayout[index];
+        var type = this.blocksLayout[index];
         var x = (index % this.cols);
         var y = Math.floor((index / this.cols));
 
@@ -180,29 +173,32 @@ Game.prototype = {
         // Check what kind of block it is
         if (spawnable) {
             var block;
-            switch (kind) {
+            var kind;
+            switch (type) {
                 case 1:
-                    block = new Block(game, mapX, mapY);
+                    kind = 'block';
                     break;
                 case 2:
-                    block = new Powerup(game, mapX, mapY, 'faster');
+                    kind = 'faster';
                     break;
                 case 3:
-                    block = new Powerup(game, mapX, mapY, 'slower');
+                    kind = 'slower';
                     break;
                 case 4:
-                    block = new Powerup(game, mapX, mapY, 'bigger');
+                    kind = 'health';
                     break;
                 case 5:
-                    block = new Powerup(game, mapX, mapY, 'smaller');
+                    kind = 'bigger';
                     break;
                 case 6:
-                    block = new Powerup(game, mapX, mapY, 'health');
+                    kind = 'smaller';
                     break;
                 default: //do nothing
                     break;
-
             }
+            if (kind != 'block') block = new Powerup(game, mapX, mapY, 'health');
+            else block = new Block(game, mapX, mapY);
+
             if (block) {
                 this.blocks.add(block);
                 game.activeBlocks.push(block);

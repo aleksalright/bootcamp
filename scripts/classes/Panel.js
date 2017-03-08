@@ -7,7 +7,7 @@ Panel = function(game, x, y, id) {
         fill: '#FFF'
     }
     var textX = 64;
-    var textY = y > game.world.centerY? game.world.height - 64 - 32: 64;
+    var textY = y > game.world.centerY ? game.world.height - 64 - 32 : 64;
     this.text = game.add.text(textX, textY, `Health ${this.id}: ${this.score}`, styles)
     game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
@@ -51,8 +51,8 @@ Panel.prototype.applyEffect = function(effect) {
     }
 }
 
-Panel.prototype.updateText = function(){
-  this.text.setText(`Health ${this.id}: ${this.score}`);
+Panel.prototype.updateText = function() {
+    this.text.setText(`Health ${this.id}: ${this.score}`);
 }
 
 Panel.prototype.addHealth = function() {

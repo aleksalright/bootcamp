@@ -55,3 +55,10 @@ Ball.prototype.slowDown = function() {
     this.body.velocity.multiply(0.8, 0.8);
     game.mag = this.body.velocity.getMagnitude();
 }
+
+Ball.prototype.reset = function(dir) {
+    this.x = game.world.centerX;
+    this.y = game.world.centerY + (-dir * game.spacingY / 2);
+    this.body.velocity.setTo(0, 0);
+    this.launched = false;
+}
