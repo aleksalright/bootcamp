@@ -56,6 +56,8 @@ Game.prototype = {
         game.input.onDown.add(function() {
             balls.forEach(function(ball) {
                 ball.move(400);
+                game.mag = ball.body.velocity.getMagnitude();
+
             }, this)
         });
         this.scoreText();
@@ -99,9 +101,9 @@ Game.prototype = {
 
         }, this);
 
-        if (player1.score === 10) {
+        if (player1.score === 0) {
             game.state.start('P2win');
-        } else if (player2.score === 10) {
+        } else if (player2.score === 0) {
             game.state.start('P1win');
         }
         if (c >= 120 && c % 10 === 0) {
@@ -212,9 +214,42 @@ Game.prototype = {
         this.ballRotate.to({
             angle: 720
         }, 500, Phaser.Easing.Linear.None, true);
+
+        var diff = 0;
+
+        if(panel.y < game.world.centerY) {
+            //top
+            if (ball.x < panel.x) {
+                // Ball is on the left-hand side of the paddle
+                diff = panel.x - ball.x;
+                ball.body.velocity.x = (-10 * diff);
+            }
+            if (ball.x > panel.x) {
+                // Ball is on the right-hand side of the paddle
+                diff = ball.x -panel.x;
+                ball.body.velocity.x = (10 * diff);
+            }
+        }
+        else {
+            //botoom
+            if (ball.x < panel.x) {
+                //  Ball is on the left-hand side of the paddle
+                diff = panel.x - ball.x;
+                ball.body.velocity.x = (-10 * diff);
+            }
+            if (ball.x > panel.x) {
+                //  Ball is on the right-hand side of the paddle
+                diff = ball.x -panel.x;
+                ball.body.velocity.x = (10 * diff);
+            }
+        }
+
+        ball.body.velocity.setMagnitude(game.mag);
     },
     ballspeedUp: function(ball) {
-        ball.body.velocity.multiply(1.4, 1.4);
+        ball.body.velocity.multiply(1.2, 1.2);
+        game.mag = ball.body.velocity.getMagnitude();
+
     },
     scoreText: function() {
         var styles = {
@@ -242,14 +277,22 @@ Game.prototype = {
             panel.loadTexture('smallPallet');
         }
     },
-    getExtraLife: function(panel) {
-      console.log(panel);
-        if (panel) {
-            panel.score += 1; //?//
+    getExtraLife: function(panel){
+        if(panel) {
+            if(panel.id == "player"){
+                player.score +=1;
+                score_one.setText(`levens: ${player.score}`);
+            }
+            if(panel.id == "opponent"){
+                opponent.score +=1;
+                score_two.setText(`levens: ${opponent.score}`);
+            }
         }
     },
     ballslowDown: function(ball) {
         ball.body.velocity.multiply(0.5, 0.5);
+        game.mag = ball.body.velocity.getMagnitude();
+
     }
 
 }

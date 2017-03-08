@@ -2,6 +2,7 @@ Panel = function(game, x, y, id) {
     Phaser.Sprite.call(this, game, x, y, 'panel');
     this.id = id;
     this.score = 5;
+    this.text = game.add.text()
     game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
     this.body.immovable = true;
