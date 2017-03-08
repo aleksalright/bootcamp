@@ -36,10 +36,10 @@ Panel.prototype.move = function(target) {
 Panel.prototype.applyEffect = function(effect) {
     switch (effect) {
         case 'smaller':
-        this.shrink();
+            this.shrink();
             break;
         case 'bigger':
-          this.grow();
+            this.grow();
             break;
         case 'health':
             this.addHealth();
@@ -49,14 +49,18 @@ Panel.prototype.applyEffect = function(effect) {
     }
 }
 
-Panel.prototype.addHealth: function() {
-    this.score += 1;
-    this.text.setText(`Health ${this.id}: ${this.score}`);
-}
-Panel.prototype.grow: function() {
-  this.loadTexture('bigPallet');
+Panel.prototype.updateText = function(){
+  this.text.setText(`Health ${this.id}: ${this.score}`);
 }
 
-Panel.prototype.shrink: function() {
-  this.loadTexture('smallPallet');
+Panel.prototype.addHealth = function() {
+    this.score += 1;
+    this.updateText();
+}
+Panel.prototype.grow = function() {
+    this.loadTexture('bigPallet');
+}
+
+Panel.prototype.shrink = function() {
+    this.loadTexture('smallPallet');
 }

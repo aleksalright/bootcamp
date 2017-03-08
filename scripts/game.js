@@ -25,8 +25,8 @@ Game.prototype = {
         balls = game.add.group();
 
         this.ballEffects = ['slower', 'faster', 'multi'];
-        game.spacingX = game.world.width / 6
-        game.spacingY = game.world.height / 2.5
+        game.spacingX = game.world.width / 6;
+        game.spacingY = game.world.height / 2.5;
 
 
         this.blocksLayout = [
@@ -67,8 +67,6 @@ Game.prototype = {
 
             }, this)
         });
-        this.scoreText();
-
     },
     update: function() {
 
@@ -113,7 +111,7 @@ Game.prototype = {
                 mainBall.y = game.world.centerY - game.spacingY / 2;
                 mainBall.body.velocity.setTo(0, 0)
                 mainBall.launched = false
-                score_one.setText(`levens: ${player1.score}`);
+                player1.updateText();
                 game.camera.shake(0.001, 500);
                 this.vibrateDevice();
             } else if (ball.body.blocked.down) {
@@ -136,8 +134,7 @@ Game.prototype = {
                     alpha: 0
                 }, 2000, Phaser.Easing.Linear.None, true);
 
-                score_two.setText(`levens: ${player2.score}`)
-
+                player2.updateText();
                 game.camera.shake(0.001, 500)
                 mainBall.x = game.world.centerX
                 mainBall.y = game.world.centerY + game.spacingY / 2;
@@ -188,19 +185,19 @@ Game.prototype = {
                     block = new Block(game, mapX, mapY);
                     break;
                 case 2:
-                    block = new Powerup(game, mapX, mapY);
+                    block = new Powerup(game, mapX, mapY, 'faster');
                     break;
                 case 3:
-                    block = new PanelBig(game, mapX, mapY);
+                    block = new Powerup(game, mapX, mapY, 'slower');
                     break;
                 case 4:
-                    block = new PanelSmall(game, mapX, mapY);
+                    block = new Powerup(game, mapX, mapY, 'bigger');
                     break;
                 case 5:
-                    block = new SlowDown(game, mapX, mapY);
+                    block = new Powerup(game, mapX, mapY, 'smaller');
                     break;
                 case 6:
-                    block = new ExtraHealth(game, mapX, mapY);
+                    block = new Powerup(game, mapX, mapY, 'health');
                     break;
                 default: //do nothing
                     break;
@@ -217,18 +214,18 @@ Game.prototype = {
     },
     ballBlockCollision: function(ball, block) {
         if (block.constructor.name === 'Powerup') {
-            powerUpCollision(ball, block);
+            this.powerUpCollision(ball, block);
         }
         this.popSound.play();
         block.kill();
     },
     powerUpCollision: function(ball, powerup) {
-        if(this.ballEffects.indexOf(powerup.kind) != -1){
-          // Apply effect to ball
-          ball.applyEffect(powerup.kind);
-        }else{
-          // Apply effect to panel that was most recently touched
-          ball.latest.applyEffect(powerup.kind);
+        if (this.ballEffects.indexOf(powerup.kind) != -1) {
+            // Apply effect to ball
+            ball.applyEffect(powerup.kind);
+        } else {
+            // Apply effect to panel that was most recently touched
+            ball.latest.applyEffect(powerup.kind);
         }
     },
     ballPanelCollision: function(ball, panel) {

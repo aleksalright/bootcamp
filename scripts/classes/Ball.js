@@ -36,22 +36,22 @@ Ball.prototype.applyEffect = function(effect) {
             this.speedUp();
             break;
         case 'slower':
-        this.slowDown();
+            this.slowDown();
             break;
         case 'multi':
-        // implement multiply method
+            // implement multiply method
             break;
         default:
             break;
     }
 }
 
-Ball.prototype.speedUp: function() {
+Ball.prototype.speedUp = function() {
     this.body.velocity.multiply(1.2, 1.2);
     game.mag = this.body.velocity.getMagnitude();
 }
 
-Ball.prototype.slowDown: function() {
+Ball.prototype.slowDown = function() {
     this.body.velocity.multiply(0.8, 0.8);
     game.mag = this.body.velocity.getMagnitude();
 }

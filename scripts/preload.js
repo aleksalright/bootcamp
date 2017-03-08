@@ -13,6 +13,11 @@ Preload.prototype = {
         game.load.image('ivan', 'assets/images/ivan.png');
         game.load.image('pieter', 'assets/images/pieter.png');
         game.load.image('karel', 'assets/images/karel.png');
+
+        game.load.script('Panel', 'scripts/classes/Panel.js');
+        game.load.script('Ball', 'scripts/classes/Ball.js');
+        game.load.script('Block', 'scripts/classes/Block.js');
+        game.load.script('Powerup', 'scripts/classes/Powerup.js');
     },
 
     create: function() {

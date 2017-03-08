@@ -17,30 +17,21 @@ Splash.prototype = {
         game.load.image('fast', 'assets/images/fast.png');
         game.load.image('sad_ivan', 'assets/images/sad_ivan.png');
         game.load.image('background', 'assets/images/background.jpg');
-        game.load.image('fast', 'assets/images/fast.png');
-        game.load.image('slow', 'assets/images/slow.png');
+        game.load.image('faster', 'assets/images/fast.png');
+        game.load.image('slower', 'assets/images/slow.png');
 
-        game.load.image('big', 'assets/images/big.png');
-        game.load.image('small', 'assets/images/small.png');
+        game.load.image('bigger', 'assets/images/big.png');
+        game.load.image('smaller', 'assets/images/small.png');
 
 
         game.load.image('bigPallet', 'assets/images/bigPallet.png');
         game.load.image('smallPallet', 'assets/images/smallPallet.png');
 
-        game.load.image('extraHealth', 'assets/images/extraHealth.png');
+        game.load.image('health', 'assets/images/extraHealth.png');
 
 
         //scripts
-        game.load.script('Ball', 'scripts/classes/Ball.js');
-        game.load.script('Block', 'scripts/classes/Block.js');
-        game.load.script('Panel', 'scripts/classes/Panel.js');
-        game.load.script('Powerup', 'scripts/classes/Powerup.js');
 
-        game.load.script('SpeedUp', 'scripts/classes/SpeedUp.js');
-        game.load.script('SlowDown', 'scripts/classes/SlowDown.js');
-        game.load.script('PanelBig', 'scripts/classes/PanelBig.js');
-        game.load.script('PanelSmall', 'scripts/classes/PanelSmall.js');
-        game.load.script('ExtraHealth', 'scripts/classes/ExtraHealth.js');
 
         //audio
         game.load.audio('pop', 'assets/sounds/pop.mp3');
@@ -67,13 +58,9 @@ Splash.prototype = {
         this.timer.add(delay, this.startGame, this);
         this.timer.start();
     },
-
-    update: function() {},
-
     startGame: function() {
         game.state.start('menu');
     },
-
     showIvan: function() {
         var heads = ['ivan', 'pieter', 'karel'];
         game.head = Phaser.ArrayUtils.getRandomItem(heads);
