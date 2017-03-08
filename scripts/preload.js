@@ -3,7 +3,7 @@ Preload = function() {};
 Preload.prototype = {
     init: function() {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        game.scaleRatio = window.devicePixelRatio / 3;
+        game.scaleRatio = 1;
     },
 
     preload: function() {
