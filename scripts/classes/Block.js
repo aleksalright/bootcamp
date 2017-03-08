@@ -1,5 +1,4 @@
 Block = function(game, x, y, texture = 'block') {
-    console.log(texture);
     Phaser.Sprite.call(this, game, x, y, texture);
 
     this.ghost = true;

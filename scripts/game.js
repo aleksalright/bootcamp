@@ -24,14 +24,10 @@ Game.prototype = {
         this.panels = game.add.group();
         balls = game.add.group();
 
-        this.speedups = game.add.group();
-        this.slowdowns = game.add.group();
-        this.panelsbig = game.add.group();
-        this.panelssmall = game.add.group();
-        this.extrahealths = game.add.group();
-
+        this.ballEffects = ['slower', 'faster', 'multi'];
         game.spacingX = game.world.width / 6
         game.spacingY = game.world.height / 2.5
+
 
         this.blocksLayout = [
             6, 6, 6, 6, 6, 6, 6,
@@ -46,9 +42,8 @@ Game.prototype = {
         game.time.advancedTiming = true;
         colors = Phaser.Color.HSVColorWheel();
         index = 0;
-
-        player1 = new Panel(game, game.world.centerX, 0, 'player1');
-        player2 = new Panel(game, game.world.centerX, game.world.height, 'player2');
+        player1 = new Panel(game, game.world.centerX, 0, 'Player 1');
+        player2 = new Panel(game, game.world.centerX, game.world.height, 'Player 2');
         this.panels.add(player1);
         this.panels.add(player2);
         mainBall = new Ball(game, game.world.centerX, game.world.centerY);
@@ -190,10 +185,10 @@ Game.prototype = {
             var block;
             switch (kind) {
                 case 1:
-                    block = new Block(game, mapX, mapY, index);
+                    block = new Block(game, mapX, mapY);
                     break;
                 case 2:
-                    block = new SpeedUp(game, mapX, mapY);
+                    block = new Powerup(game, mapX, mapY);
                     break;
                 case 3:
                     block = new PanelBig(game, mapX, mapY);
@@ -222,10 +217,19 @@ Game.prototype = {
     },
     ballBlockCollision: function(ball, block) {
         if (block.constructor.name === 'Powerup') {
-          powerUpCollision(ball, block);
+            powerUpCollision(ball, block);
         }
         this.popSound.play();
         block.kill();
+    },
+    powerUpCollision: function(ball, powerup) {
+        if(this.ballEffects.indexOf(powerup.kind) != -1){
+          // Apply effect to ball
+          ball.applyEffect(powerup.kind);
+        }else{
+          // Apply effect to panel that was most recently touched
+          ball.latest.applyEffect(powerup.kind);
+        }
     },
     ballPanelCollision: function(ball, panel) {
         ball.latest = panel;
@@ -236,19 +240,6 @@ Game.prototype = {
 
         ball.deflect();
     },
-    ballspeedUp: function(ball) {
-        ball.body.velocity.multiply(1.2, 1.2);
-        game.mag = ball.body.velocity.getMagnitude();
-
-    },
-    scoreText: function() {
-        var styles = {
-            font: '64px Verdana',
-            fill: '#FFF'
-        }
-        score_one = game.add.text(64, 64, `Player 1: ${player1.score}`, styles);
-        score_two = game.add.text(64, game.world.height - 64 - 64, `Player 2: ${player2.score}`, styles);
-    },
     blockGhosting: function(ball, block) {
         return !block.ghost;
     },
@@ -256,33 +247,5 @@ Game.prototype = {
         if (game.device.vibration) {
             window.navigator.vibrate(100);
         }
-    },
-    makePalletBig: function(panel) {
-        if (panel) {
-            panel.loadTexture('bigPallet');
-        }
-    },
-    makePalletSmall: function(panel) {
-        if (panel) {
-            panel.loadTexture('smallPallet');
-        }
-    },
-    getExtraLife: function(panel) {
-        if (panel) {
-            if (panel.id == "player") {
-                player.score += 1;
-                score_one.setText(`levens: ${player.score}`);
-            }
-            if (panel.id == "opponent") {
-                opponent.score += 1;
-                score_two.setText(`levens: ${opponent.score}`);
-            }
-        }
-    },
-    ballslowDown: function(ball) {
-        ball.body.velocity.multiply(0.5, 0.5);
-        game.mag = ball.body.velocity.getMagnitude();
-
     }
-
 }
