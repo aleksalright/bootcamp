@@ -13,7 +13,7 @@ Menu.prototype = {
 
       this.logo = game.add.sprite(game.world.centerX, 40, 'logo');
       this.logo.scale.setTo(1,1);
-      this.logo.anchor.setTo(0.5, 0.5);
+      this.logo.anchor.setTo(0.5, 0);
 
       //start button
       this.btn = game.add.button(game.world.centerX + 200, game.world.centerY + 150, 'btn', this.playGame, this, 1, 0);
