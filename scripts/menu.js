@@ -11,7 +11,7 @@ Menu.prototype = {
       var ypos = game.world.centerY;
       game.add.tween(this.ivan).to({x:xpos, y:ypos}, 500, Phaser.Easing.Elastic.Out, true, 100);
 
-      this.logo = game.add.sprite(game.world.centerX, game.world.centerY - 200, 'logo');
+      this.logo = game.add.sprite(game.world.centerX, 40, 'logo');
       this.logo.scale.setTo(1,1);
       this.logo.anchor.setTo(0.5, 0.5);
 
