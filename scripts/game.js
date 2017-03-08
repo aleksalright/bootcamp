@@ -110,10 +110,18 @@ Game.prototype = {
                 game.paused = true;
             }
         }, this);
-
+        var head;
         if (player1.score === 0) {
+            do {
+                head = Phaser.ArrayUtils.getRandomItem(game.heads);
+            } while (game.head == head)
+            game.head = head;
             game.state.start('P2win');
         } else if (player2.score === 0) {
+            do {
+                head = Phaser.ArrayUtils.getRandomItem(game.heads);
+            } while (game.head == head)
+            game.head = head;
             game.state.start('P1win');
         }
         if (!game.paused) {
