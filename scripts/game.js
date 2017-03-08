@@ -166,9 +166,6 @@ Game.prototype = {
         }
         score_one = game.add.text(64, 64, `Player 1: ${player1.score}`, styles);
         score_two = game.add.text(64, game.world.height - 64 - 64, `Player 2: ${player2.score}`, styles);
-
-
-
     },
     blockGhosting: function(ball, block) {
         return !block.ghost;
