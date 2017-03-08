@@ -41,9 +41,7 @@ Splash.prototype = {
     create: function() {
         //background and logo
         this.background = game.add.sprite(0, 0, 'black');
-        this.background.scale.setTo(game.scaleRatio, game.scaleRatio);
         this.kdg = game.add.sprite(game.world.centerX, game.world.centerY, 'kdg');
-        this.kdg.scale.setTo(game.scaleRatio, game.scaleRatio);
         this.kdg.anchor.setTo(0.5, 0.5);
 
         //timer show ivan
@@ -69,8 +67,8 @@ Splash.prototype = {
         this.ivan.scale.setTo(0, 0);
 
         game.add.tween(this.ivan.scale).to({
-            x: game.scaleRatio * 1.3,
-            y: game.scaleRatio * 1.3
+            x: 1.3,
+            y: 1.3
         }, 500, Phaser.Easing.Elastic.Out, true, 100);
     }
 };

@@ -15,7 +15,6 @@ Block = function(game, x, y, texture = 'block') {
     this.body.collideWorldBounds = true;
     this.body.immovable = true;
     this.anchor.setTo(0.5, 0.5);
-    this.scale.setTo(game.scaleRatio, game.scaleRatio);
     game.add.existing(this);
 }
 

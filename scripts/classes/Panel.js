@@ -13,7 +13,6 @@ Panel = function(game, x, y, id) {
     this.body.collideWorldBounds = true;
     this.body.immovable = true;
     this.anchor.setTo(0.5, 0.5);
-    this.scale.setTo(game.scaleRatio, game.scaleRatio);
 
     this.panelVelocity = 250;
     this.maxPanelSpeed = 100;

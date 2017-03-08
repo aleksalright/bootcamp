@@ -8,7 +8,6 @@ Win.prototype = {
         //ivan
         this.ivan = game.add.sprite(game.world.centerX, game.world.centerY - 100, game.head);
         this.ivan.anchor.setTo(0.5, 0.5);
-        this.ivan.scale.setTo(game.scaleRatio, game.scaleRatio);
         this.ivan.angle = -20;
         game.add.tween(this.ivan).to({angle: 20}, 500, null, true, 0, Infinity, true);
 

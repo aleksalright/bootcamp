@@ -6,7 +6,6 @@ Ball = function(game, x, y) {
     this.body.bounce.setTo(1, 1);
     this.latestWall = null;
     this.anchor.setTo(0.5, 0.5);
-    this.scale.setTo(game.scaleRatio, game.scaleRatio);
     this.launched = false;
     game.add.existing(this);
 }
