@@ -30,6 +30,9 @@ Game.prototype = {
         this.panelssmall = game.add.group();
         this.extrahealths = game.add.group();
 
+        game.spacingX = game.world.width / 6
+        game.spacingY = game.world.height / 2.5
+
         this.blocksLayout = [
             6, 6, 6, 6, 6, 6, 6,
             0, 2, 0, 1, 2, 1, 2,
@@ -55,8 +58,17 @@ Game.prototype = {
 
         game.input.onDown.add(function() {
             balls.forEach(function(ball) {
-                ball.move(400);
-                game.mag = ball.body.velocity.getMagnitude();
+                if (ball.latestWall === 'up') {
+                    ball.move(0, -1);
+                    ball.body.velocity.setMagnitude(game.mag);
+                } else if (ball.latestWall === 'down') {
+                    ball.move(0, 1);
+                    ball.body.velocity.setMagnitude(game.mag);
+                } else {
+                    ball.move(400);
+                    game.mag = ball.body.velocity.getMagnitude();
+                }
+
 
             }, this)
         });
@@ -89,12 +101,60 @@ Game.prototype = {
         balls.forEach(function(ball) {
             if (ball.body.blocked.up) {
                 player1.score -= 1;
+                ball.latestWall = 'up';
+
+                textReflect = game.add.text(game.world.centerX, game.world.centerY + 50, '- PHASER -')
+
+                //  Centers the text
+                textReflect.anchor.set(0.5)
+                textReflect.align = 'center'
+                textReflect.scale.y = -1
+
+                //  Our font + size
+                textReflect.font = 'Arial'
+                textReflect.fontWeight = 'bold'
+                textReflect.fill = 'red'
+                textReflect.alpha = 1;
+                game.add.tween(textReflect).to({
+                    alpha: 0
+                }, 2000, Phaser.Easing.Linear.None, true);
+
+                mainBall.x = game.world.centerX
+                mainBall.y = game.world.centerY - game.spacingY / 2;
+                mainBall.body.velocity.setTo(0, 0)
+                mainBall.launched = false
                 score_one.setText(`levens: ${player1.score}`);
                 game.camera.shake(0.001, 500);
                 this.vibrateDevice();
             } else if (ball.body.blocked.down) {
                 player2.score -= 1;
-                score_two.setText(`levens: ${player2.score}`);
+                ball.latestWall = 'down';
+                textReflect = game.add.text(game.world.centerX, game.world.centerY + 50, '- PHASER -')
+
+                //  Centers the text
+                textReflect.anchor.set(0.5)
+                textReflect.align = 'center'
+                textReflect.scale.y = -1
+
+                //  Our font + size
+                textReflect.font = 'Arial'
+                textReflect.fontWeight = 'bold'
+                textReflect.fontSize = 70
+                textReflect.fill = 'red'
+                textReflect.alpha = 1;
+                game.add.tween(textReflect).to({
+                    alpha: 0
+                }, 2000, Phaser.Easing.Linear.None, true);
+
+                score_two.setText(`levens: ${player2.score}`)
+
+                game.camera.shake(0.001, 500)
+                mainBall.x = game.world.centerX
+                mainBall.y = game.world.centerY + game.spacingY / 2;
+
+
+                mainBall.body.velocity.setTo(0, 0)
+                mainBall.launched = false
                 game.camera.shake(0.001, 500);
                 this.vibrateDevice();
             }
@@ -112,15 +172,14 @@ Game.prototype = {
         c++;
     },
     spawnBlock: function() {
-        var spacingX = game.world.width / 6;
-        var spacingY = game.world.height / 2.5;
+
         var index = game.rnd.integerInRange(0, this.blocksLayout.length - 1);
         var kind = this.blocksLayout[index];
         var x = (index % this.cols);
         var y = Math.floor((index / this.cols));
 
-        var mapX = Phaser.Math.mapLinear(x, 0, this.cols - 1, spacingX, game.width - spacingX);
-        var mapY = Phaser.Math.mapLinear(y, 0, (this.blocksLayout.length / this.cols) - 1, spacingY, game.height - spacingY);
+        var mapX = Phaser.Math.mapLinear(x, 0, this.cols - 1, game.spacingX, game.width - game.spacingX);
+        var mapY = Phaser.Math.mapLinear(y, 0, (this.blocksLayout.length / this.cols) - 1, game.spacingY, game.height - game.spacingY);
         var spawnable = true;
 
         if (game.activeBlocks.length != 0) {
@@ -217,7 +276,7 @@ Game.prototype = {
 
         var diff = 0;
 
-        if(panel.y < game.world.centerY) {
+        if (panel.y < game.world.centerY) {
             //top
             if (ball.x < panel.x) {
                 // Ball is on the left-hand side of the paddle
@@ -226,11 +285,10 @@ Game.prototype = {
             }
             if (ball.x > panel.x) {
                 // Ball is on the right-hand side of the paddle
-                diff = ball.x -panel.x;
+                diff = ball.x - panel.x;
                 ball.body.velocity.x = (10 * diff);
             }
-        }
-        else {
+        } else {
             //botoom
             if (ball.x < panel.x) {
                 //  Ball is on the left-hand side of the paddle
@@ -239,7 +297,7 @@ Game.prototype = {
             }
             if (ball.x > panel.x) {
                 //  Ball is on the right-hand side of the paddle
-                diff = ball.x -panel.x;
+                diff = ball.x - panel.x;
                 ball.body.velocity.x = (10 * diff);
             }
         }
@@ -277,14 +335,14 @@ Game.prototype = {
             panel.loadTexture('smallPallet');
         }
     },
-    getExtraLife: function(panel){
-        if(panel) {
-            if(panel.id == "player"){
-                player.score +=1;
+    getExtraLife: function(panel) {
+        if (panel) {
+            if (panel.id == "player") {
+                player.score += 1;
                 score_one.setText(`levens: ${player.score}`);
             }
-            if(panel.id == "opponent"){
-                opponent.score +=1;
+            if (panel.id == "opponent") {
+                opponent.score += 1;
                 score_two.setText(`levens: ${opponent.score}`);
             }
         }

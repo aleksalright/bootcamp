@@ -4,7 +4,7 @@ Ball = function(game, x, y) {
     game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
     this.body.bounce.setTo(1, 1);
-    // this.body.maxVelocity = new Phaser.Point(1000, 1000);
+    this.latestWall = null;
     this.anchor.setTo(0.5, 0.5);
     this.scale.setTo(game.scaleRatio, game.scaleRatio);
     this.launched = false;
