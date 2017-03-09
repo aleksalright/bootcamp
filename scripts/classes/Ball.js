@@ -30,12 +30,15 @@ Ball.prototype.deflect = function() {
 }
 
 Ball.prototype.applyEffect = function(effect) {
+    timer = game.time.create(false);
     switch (effect) {
         case 'faster':
             this.speedUp();
+            timer.add(5000, this.normal, this);
             break;
         case 'slower':
             this.slowDown();
+            timer.add(5000, this.normal, this);
             break;
         case 'multi':
             // implement multiply method
@@ -60,4 +63,9 @@ Ball.prototype.reset = function(dir) {
     this.y = game.world.centerY + (-dir * game.spacingY / 2);
     this.body.velocity.setTo(0, 0);
     this.launched = false;
+}
+
+Ball.prototype.normal = function() {
+    this.body.velocity.multiply(0.4, 0.4);
+    game.mag = this.body.velocity.getMagnitude();
 }

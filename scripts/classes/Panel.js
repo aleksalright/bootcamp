@@ -30,12 +30,15 @@ Panel.prototype.move = function(target) {
 }
 
 Panel.prototype.applyEffect = function(effect) {
+    timer = game.time.create(false);
     switch (effect) {
         case 'smaller':
             this.shrink();
+            timer.add(10000, this.normal, this);
             break;
         case 'bigger':
             this.grow();
+            timer.add(10000, this.normal, this);
             break;
         case 'health':
             this.addHealth();
@@ -46,14 +49,7 @@ Panel.prototype.applyEffect = function(effect) {
 }
 
 Panel.prototype.checkHealthBar = function() {
-    if(this.y > game.world.centerY){
-      var barX = game.world.width - 70;
-      var barY = game.world.height - 70;
 
-    }else{
-      var barX = 70;
-      var barY = 70;
-    }
     for (var m = 0; m < this.healthBar.length; m++) {
         this.healthBar[m].kill();
     }
@@ -61,7 +57,15 @@ Panel.prototype.checkHealthBar = function() {
     var j;
 
     for (j = 0; j < this.health; j++) {
-        var heart = game.add.sprite(barX + (25 * j + 47.5 * j), barY, 'hearts', 0);
+        if (this.y > game.world.centerY) {
+            var barX = (70) + (25 * j + 47.5 * j);
+            var barY = game.world.height - 70;
+
+        } else {
+            var barX = (game.world.width - 70) - (25 * j + 47.5 * j);
+            var barY = 70;
+        }
+        var heart = game.add.sprite(barX, barY, 'hearts', 0);
         heart.scale.setTo(1.5, 1.5)
         heart.anchor.setTo(0.5);
         this.healthBar.push(heart);
@@ -69,22 +73,35 @@ Panel.prototype.checkHealthBar = function() {
 
 
     for (var k = j; k < 5; k++) {
-      var heart = game.add.sprite(barX+(25 * k + 47.5 * k), barY, 'hearts', 1);
+        if (this.y > game.world.centerY) {
+            var barX = (70) + (25 * j + 47.5 * j);
+            var barY = game.world.height - 70;
+
+        } else {
+            var barX = (game.world.width - 70) - (25 * j + 47.5 * j);
+            var barY = 70;
+        }
+        var heart = game.add.sprite(barX, barY, 'hearts', 1);
         heart.scale.setTo(1.5, 1.5);
         heart.anchor.setTo(0.5);
 
         this.healthBar.push(heart);
     }
+    console.log(j, k);
 }
 
 Panel.prototype.addHealth = function() {
     this.health += 1;
-    this.updateText();
 }
+
 Panel.prototype.grow = function() {
     this.loadTexture('bigPallet');
 }
 
 Panel.prototype.shrink = function() {
     this.loadTexture('smallPallet');
+}
+
+Panel.prototype.normal = function() {
+    this.loadTexture('panel');
 }
