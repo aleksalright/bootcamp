@@ -4,12 +4,12 @@ Settings.prototype = {
     create: function() {
       this.background = game.add.sprite(0, 0, 'black');
     
-      //sound button
-      this.mute = game.add.button(game.world.centerX, game.world.centerY - 500, 'mute', this.toggleSound, this);
-      this.mute.anchor.setTo(0.5, 0.5);
-      this.mute.scale.setTo(0.5,0.5);
-        
-      //text test
+      //text: play with
+      this.baseText = game.add.bitmapText(game.world.centerX, game.world.centerY -500, 'bLobster', "Play With:");
+      this.baseText.fontSize = 175;
+      this.baseText.fill = '#ffd200';
+      this.baseText.align = 'center';
+      this.baseText.anchor.setTo(0.5, 0.5);
         
       //ivan
       this.ivan = game.add.button(game.world.centerX, game.world.centerY - 100, 'ivan', this.pickHead, this);
@@ -29,20 +29,37 @@ Settings.prototype = {
       this.karel.scale.setTo(0.7,0.7);
       this.karel.name = "karel";
         
-      //chosen head text
-      this.baseText = game.add.bitmapText(game.world.centerX, game.world.centerY + 300, 'bLobster', "Play With:");
-      this.baseText.fontSize = 175;
-      this.baseText.fill = '#ffd200';
-      this.baseText.align = 'center';
-      this.baseText.anchor.setTo(0.5, 0.5);
+      //select current head
+      switch(game.head) {
+            case "ivan":
+                this.ivan.frame = 1;
+                this.pieter.frame = 0;
+                this.karel.frame = 0;
+                break;
+            case "pieter":
+                this.ivan.frame = 0;
+                this.pieter.frame = 1;
+                this.karel.frame = 0;
+                break;
+            case "karel":
+                this.ivan.frame = 0;
+                this.pieter.frame = 0;
+                this.karel.frame = 1;
+                break;
+        }
         
+      //name text
       var name = game.head.charAt(0).toUpperCase() + game.head.slice(1);
-        
-      this.textObj = game.add.bitmapText(game.world.centerX, game.world.centerY + 600, 'bLobster', name);
-      this.textObj.fontSize = 250;
+      this.textObj = game.add.bitmapText(game.world.centerX, game.world.centerY + 350, 'bLobster', name);
+      this.textObj.fontSize = 350;
       this.textObj.fill = '#ffd200';
       this.textObj.align = 'center';
       this.textObj.anchor.setTo(0.5, 0.5);
+        
+      //sound button
+      this.mute = game.add.button(250, game.world.height - 250, 'mute', this.toggleSound, this);
+      this.mute.anchor.setTo(0.5, 0.5);
+      this.mute.scale.setTo(0.4,0.4);
         
       //back to menu button
       this.back = game.add.button(game.world.width - 250, game.world.height - 250, 'back', this.backToMenu, this);
