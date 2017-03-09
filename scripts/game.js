@@ -111,6 +111,7 @@ Game.prototype = {
             }
             if (player) {
                 player.health -= 1;
+                player.blinkBar();
                 player.checkHealthBar();
                 this.checkEnd(player);
                 //  player.updateText();

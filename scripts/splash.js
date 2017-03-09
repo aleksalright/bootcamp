@@ -25,7 +25,6 @@ Splash.prototype = {
         game.load.image('bigger', 'assets/images/big.png');
         game.load.image('smaller', 'assets/images/small.png');
 
-
         game.load.image('bigPallet', 'assets/images/bigPallet.png');
         game.load.image('smallPallet', 'assets/images/smallPallet.png');
 
