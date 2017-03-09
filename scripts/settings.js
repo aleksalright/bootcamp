@@ -30,10 +30,16 @@ Settings.prototype = {
       this.karel.name = "karel";
         
       //chosen head text
+      this.baseText = game.add.bitmapText(game.world.centerX, game.world.centerY + 300, 'bLobster', "Play With:");
+      this.baseText.fontSize = 175;
+      this.baseText.fill = '#ffd200';
+      this.baseText.align = 'center';
+      this.baseText.anchor.setTo(0.5, 0.5);
+        
       var name = game.head.charAt(0).toUpperCase() + game.head.slice(1);
-      this.text = "Play With: " + name;
-      this.textObj = game.add.bitmapText(game.world.centerX, game.world.centerY + 200, 'bLobster', this.text);
-      this.textObj.fontSize = 175;
+        
+      this.textObj = game.add.bitmapText(game.world.centerX, game.world.centerY + 600, 'bLobster', name);
+      this.textObj.fontSize = 250;
       this.textObj.fill = '#ffd200';
       this.textObj.align = 'center';
       this.textObj.anchor.setTo(0.5, 0.5);
@@ -91,7 +97,7 @@ Settings.prototype = {
         game.head = head.name;
         
         var name = head.name.charAt(0).toUpperCase() + head.name.slice(1);
-        this.text = "Play With: " + name;
+        this.text = name;
         this.textObj.setText(this.text);
         
         switch(head.name) {
