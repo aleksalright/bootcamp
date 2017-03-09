@@ -6,7 +6,7 @@ Splash.prototype = {
         game.load.spritesheet('btn', 'assets/images/startbtn.png', 340, 170);
         game.load.spritesheet('hearts', 'assets/images/hearts.png', 50,50);
         game.load.spritesheet('btn2', 'assets/images/startbtn2.png', 300, 170);
-        game.load.spritesheet('mute', 'assets/images/sound.png', 600, 600);
+        game.load.spritesheet('mute', 'assets/images/sound.png', 375, 350);
 
         //images
         game.load.image('background', 'assets/images/background.jpg');
