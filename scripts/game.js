@@ -6,8 +6,8 @@ Game.prototype = {
         game.scale.pageAlignVertically = true;
     },
     render: function() {
-      game.debug.text("x: ", game.world.width, 500, 500, '64px Arial');
-      game.debug.text("y: ", game.world.height,500, 600);
+      game.debug.text("x: " + game.world.width, 500, 500, '64px Arial');
+      game.debug.text("y: " + game.world.height,500, 600, '64px Arial' );
     },
 
     create: function() {
