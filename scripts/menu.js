@@ -16,8 +16,8 @@ Menu.prototype = {
       this.logo.anchor.setTo(0.5, 0);
 
       //settings button
-      this.settings = game.add.button(game.world.centerX + 175, game.world.centerY - 250, 'settings', this.openSettings, this, 1, 0);
-      this.settings.scale.setTo(0.6,0.6);
+      this.settings = game.add.button(game.world.width - 250, game.world.height - 250, 'settings', this.openSettings, this);
+      this.settings.scale.setTo(0.4,0.4);
       this.settings.anchor.setTo(0.5, 0.5);
 
       //start button
