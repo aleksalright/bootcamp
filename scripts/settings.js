@@ -6,7 +6,7 @@ Settings.prototype = {
     
       //text: play with
       this.baseText = game.add.bitmapText(game.world.centerX, game.world.centerY -500, 'bLobster', "Play With:");
-      this.baseText.fontSize = 175;
+      this.baseText.fontSize = 125;
       this.baseText.fill = '#ffd200';
       this.baseText.align = 'center';
       this.baseText.anchor.setTo(0.5, 0.5);
@@ -59,12 +59,12 @@ Settings.prototype = {
       //sound button
       this.mute = game.add.button(250, game.world.height - 250, 'mute', this.toggleSound, this);
       this.mute.anchor.setTo(0.5, 0.5);
-      this.mute.scale.setTo(0.4,0.4);
+      this.mute.scale.setTo(0.25,0.25);
         
       //back to menu button
       this.back = game.add.button(game.world.width - 250, game.world.height - 250, 'back', this.backToMenu, this);
       this.back.scale.setTo(0.5,0.5);
-      this.back.anchor.setTo(0.6, 0.6);
+      this.back.anchor.setTo(0.3, 0.3);
     },
 
     playGame: function() {
