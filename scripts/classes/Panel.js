@@ -29,10 +29,6 @@ Panel.prototype.move = function(target) {
     }
 }
 
-Panel.prototype.blinkBar = function(){
-  
-}
-
 Panel.prototype.applyEffect = function(effect) {
     timer = game.time.create(false);
     switch (effect) {
@@ -78,11 +74,11 @@ Panel.prototype.checkHealthBar = function() {
 
     for (var k = j; k < 5; k++) {
         if (this.y > game.world.centerY) {
-            var barX = (70) + (25 * k + 47.5 * k);
+            var barX = (70) + (25 * j + 47.5 * j);
             var barY = game.world.height - 70;
 
         } else {
-            var barX = (game.world.width - 70) - (25 * k + 47.5 * k);
+            var barX = (game.world.width - 70) - (25 * j + 47.5 * j);
             var barY = 70;
         }
         var heart = game.add.sprite(barX, barY, 'hearts', 1);
@@ -91,6 +87,7 @@ Panel.prototype.checkHealthBar = function() {
 
         this.healthBar.push(heart);
     }
+    console.log(j, k);
 }
 
 Panel.prototype.addHealth = function() {
