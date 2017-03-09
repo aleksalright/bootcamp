@@ -68,7 +68,7 @@ Settings.prototype = {
         }
         
         //enable button again
-        var delay = 500;
+        var delay = 50;
         this.timer = this.game.time.create(this.game);
         this.timer.add(delay, this.enableInput, this);
         this.timer.start();
