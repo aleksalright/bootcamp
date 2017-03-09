@@ -37,10 +37,10 @@ Settings.prototype = {
       this.textObj.align = 'center';
       this.textObj.anchor.setTo(0.5, 0.5);
         
-      //play button
-      this.btn = game.add.button(game.world.centerX, game.world.centerY + 600, 'btn2', this.playGame, this, 1, 0);
-      this.btn.scale.setTo(2,2);
-      this.btn.anchor.setTo(0.5, 0.5);
+      //back to menu button
+      this.back = game.add.button(game.world.width - 250, game.world.height - 250, 'back', this.backToMenu, this);
+      this.back.scale.setTo(0.5,0.5);
+      this.back.anchor.setTo(0.6, 0.6);
     },
 
     playGame: function() {
@@ -54,11 +54,9 @@ Settings.prototype = {
         //toggle sound
         if(game.sound.mute) {
             game.sound.mute = false;
-            console.log('unmute');
         }
         else {
             game.sound.mute = true;
-            console.log('mute');
         }
         
         //switch button frames
@@ -85,5 +83,9 @@ Settings.prototype = {
         var name = head.name.charAt(0).toUpperCase() + head.name.slice(1);
         this.text = "Play With: " + name;
         this.textObj.setText(this.text);
+    },
+    
+    backToMenu: function() {
+        game.state.start('menu');
     }
 }

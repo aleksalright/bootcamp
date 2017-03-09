@@ -33,6 +33,7 @@ Splash.prototype = {
         game.load.image('health', 'assets/images/extraHealth.png');
         
         game.load.image('settings', 'assets/images/settings.png');
+        game.load.image('back', 'assets/images/back.png');
 
         //audio
         game.load.audio('pop', 'assets/sounds/pop.mp3');
