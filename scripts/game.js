@@ -111,7 +111,6 @@ Game.prototype = {
             }
             if (player) {
                 player.health -= 1;
-                player.blinkBar();
                 player.checkHealthBar();
                 this.checkEnd(player);
                 //  player.updateText();
@@ -132,10 +131,6 @@ Game.prototype = {
     checkEnd: function(player) {
         var head;
         if (player.health == 0) {
-            do {
-                head = Phaser.ArrayUtils.getRandomItem(game.heads);
-            } while (game.head == head)
-            game.head = head;
             game.winner = player.id;
             game.state.start('win');
         }

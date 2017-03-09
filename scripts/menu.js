@@ -15,16 +15,22 @@ Menu.prototype = {
       this.logo.scale.setTo(1,1);
       this.logo.anchor.setTo(0.5, 0);
 
+      //settings button
+      this.settings = game.add.button(game.world.width - 250, game.world.height - 250, 'settings', this.openSettings, this);
+      this.settings.scale.setTo(0.4,0.4);
+      this.settings.anchor.setTo(0.5, 0.5);
+
       //start button
       this.btn = game.add.button(game.world.centerX + 175, game.world.centerY + 250, 'btn', this.playGame, this, 1, 0);
       this.btn.scale.setTo(1.3,1.3);
       this.btn.anchor.setTo(0.5, 0.5);
     },
 
-    update: function() {
-    },
-
     playGame: function() {
         game.state.start('game');
+    },
+    
+    openSettings: function() {
+        game.state.start('settings');
     }
 }

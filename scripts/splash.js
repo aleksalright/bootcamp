@@ -5,34 +5,35 @@ Splash.prototype = {
         //spritesheets
         game.load.spritesheet('btn', 'assets/images/startbtn.png', 340, 170);
         game.load.spritesheet('hearts', 'assets/images/hearts.png', 50,50);
+        game.load.spritesheet('btn2', 'assets/images/startbtn2.png', 300, 170);
+        game.load.spritesheet('mute', 'assets/images/sound.png', 600, 600);
 
         //images
+        game.load.image('background', 'assets/images/background.jpg');
+        game.load.image('banner', 'assets/images/banner.png');
+        
         game.load.image('ball', 'assets/images/ball.png');
         game.load.image('ball_ivan', 'assets/images/ball_ivan.png');
         game.load.image('ball_karel', 'assets/images/ball_karel.png');
         game.load.image('ball_pieter', 'assets/images/ball_pieter.png');
+        
         game.load.image('panel', 'assets/images/pallet.png');
         game.load.image('block', 'assets/images/brick.png');
+        
         game.load.image('player1_win', 'assets/images/player1_win.png');
         game.load.image('player2_win', 'assets/images/player2_win.png');
+        
         game.load.image('fast', 'assets/images/fast.png');
-        game.load.image('sad_ivan', 'assets/images/sad_ivan.png');
-        game.load.image('background', 'assets/images/background.jpg');
-        game.load.image('banner', 'assets/images/banner.png');
         game.load.image('faster', 'assets/images/fast.png');
         game.load.image('slower', 'assets/images/slow.png');
-
         game.load.image('bigger', 'assets/images/big.png');
         game.load.image('smaller', 'assets/images/small.png');
-
         game.load.image('bigPallet', 'assets/images/bigPallet.png');
         game.load.image('smallPallet', 'assets/images/smallPallet.png');
-
         game.load.image('health', 'assets/images/extraHealth.png');
-
-
-        //scripts
-
+        
+        game.load.image('settings', 'assets/images/settings.png');
+        game.load.image('back', 'assets/images/back.png');
 
         //audio
         game.load.audio('pop', 'assets/sounds/pop.mp3');
