@@ -117,7 +117,7 @@ Game.prototype = {
             if (player) {
                 player.score -= 1;
                 this.checkEnd(player);
-                player.updateText();
+                //player.updateText();
                 game.camera.shake(0.001, 500);
                 this.vibrateDevice();
                 ball.reset(dir);
