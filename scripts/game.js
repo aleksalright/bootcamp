@@ -6,7 +6,7 @@ Game.prototype = {
         game.scale.pageAlignVertically = true;
     },
     render: function() {
-      
+
     },
 
     create: function() {
@@ -18,7 +18,17 @@ Game.prototype = {
         this.pointers = game.input.pointers;
 
         this.cols = 7;
-        this.tilesprite = this.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
+        this.tilesprite = game.add.tileSprite(0, 140, game.world.width, game.world.height - 280, 'background');
+
+        this.banner1 = game.add.sprite(game.world.centerX, 70, 'banner');
+        this.banner1.anchor.setTo(0.5, 0.5);
+        this.banner1.width = game.world.width;
+
+        this.banner2 = game.add.sprite(game.world.centerX, game.world.height - 70, 'banner');
+        this.banner2.anchor.setTo(0.5, 0.5);
+        this.banner2.width = game.world.width;
+        this.banner2.angle = 180;
+
         this.popSound = game.add.audio('pop');
         this.blocks = game.add.group();
         this.panels = game.add.group();
@@ -42,14 +52,17 @@ Game.prototype = {
         game.time.advancedTiming = true;
         colors = Phaser.Color.HSVColorWheel();
         index = 0;
-        player1 = new Panel(game, game.world.centerX, 0, '1');
-        player2 = new Panel(game, game.world.centerX, game.world.height, '2');
+        player1 = new Panel(game, game.world.centerX, 150, '1');
+        player2 = new Panel(game, game.world.centerX, game.world.height - 150, '2');
         this.panels.add(player1);
         this.panels.add(player2);
         mainBall = new Ball(game, game.world.centerX, game.world.centerY);
         this.ballRotate = game.add.tween(mainBall);
 
         balls.add(mainBall);
+        this.heart = game.add.sprite(500, 500, 'hearts');
+        this.emptyheart = game.add.sprite(560, 500, 'hearts');
+        this.emptyheart.frame = 1;
 
         game.input.onDown.add(function() {
             balls.forEach(function(ball) {

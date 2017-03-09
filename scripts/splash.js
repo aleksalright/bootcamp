@@ -4,6 +4,7 @@ Splash.prototype = {
     preload: function() {
         //spritesheets
         game.load.spritesheet('btn', 'assets/images/startbtn.png', 340, 170);
+        game.load.spritesheet('hearts', 'assets/images/hearts.png', 50,50);
 
         //images
         game.load.image('ball', 'assets/images/ball.png');
@@ -17,6 +18,7 @@ Splash.prototype = {
         game.load.image('fast', 'assets/images/fast.png');
         game.load.image('sad_ivan', 'assets/images/sad_ivan.png');
         game.load.image('background', 'assets/images/background.jpg');
+        game.load.image('banner', 'assets/images/banner.png');
         game.load.image('faster', 'assets/images/fast.png');
         game.load.image('slower', 'assets/images/slow.png');
 
