@@ -1,8 +1,9 @@
 Panel = function(game, x, y, id) {
     Phaser.Sprite.call(this, game, x, y, 'panel');
     this.id = id;
-    this.health = 4;
+    this.health = 5;
     this.healthBar = [];
+    this.checkHealthBar();
     game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
     this.body.immovable = true;
@@ -45,6 +46,14 @@ Panel.prototype.applyEffect = function(effect) {
 }
 
 Panel.prototype.checkHealthBar = function() {
+    if(this.y > game.world.centerY){
+      var barX = game.world.width - 70;
+      var barY = game.world.height - 70;
+
+    }else{
+      var barX = 70;
+      var barY = 70;
+    }
     for (var m = 0; m < this.healthBar.length; m++) {
         this.healthBar[m].kill();
     }
@@ -52,15 +61,18 @@ Panel.prototype.checkHealthBar = function() {
     var j;
 
     for (j = 0; j < this.health; j++) {
-        var heart = game.add.sprite(25 * j + 47.5 * j, 500, 'hearts', 0);
+        var heart = game.add.sprite(barX + (25 * j + 47.5 * j), barY, 'hearts', 0);
         heart.scale.setTo(1.5, 1.5)
+        heart.anchor.setTo(0.5);
         this.healthBar.push(heart);
     }
 
 
     for (var k = j; k < 5; k++) {
-        var heart = game.add.sprite(25 * k + 47.5 * k, 500, 'hearts', 1);
-        heart.scale.setTo(1.5, 1.5)
+      var heart = game.add.sprite(barX+(25 * k + 47.5 * k), barY, 'hearts', 1);
+        heart.scale.setTo(1.5, 1.5);
+        heart.anchor.setTo(0.5);
+
         this.healthBar.push(heart);
     }
 }

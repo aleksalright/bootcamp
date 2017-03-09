@@ -95,7 +95,6 @@ Game.prototype = {
                 }
             }
         }
-        player1.checkHealthBar();
 
         balls.forEach(function(ball) {
             var dir;
@@ -104,16 +103,15 @@ Game.prototype = {
                 player = player1;
                 dir = 1;
                 ball.latestWall = 'up';
-                this.playerScores(player2);
 
             } else if (ball.body.blocked.down) {
                 player = player2;
                 dir = -1;
                 ball.latestWall = 'down';
-                this.playerScores(player1);
             }
             if (player) {
-                player.score -= 1;
+                player.health -= 1;
+                player.checkHealthBar();
                 this.checkEnd(player);
                 //  player.updateText();
                 game.camera.shake(0.001, 500);
@@ -132,7 +130,7 @@ Game.prototype = {
     },
     checkEnd: function(player) {
         var head;
-        if (player.score == 0) {
+        if (player.health == 0) {
             do {
                 head = Phaser.ArrayUtils.getRandomItem(game.heads);
             } while (game.head == head)
@@ -140,35 +138,6 @@ Game.prototype = {
             game.winner = player.id;
             game.state.start('win');
         }
-    },
-    playerScores: function(panel) {
-        var styles = {
-            fontSize: 128,
-            align: 'center',
-            font: 'Arial',
-            fill: 'red',
-            alpha: 0,
-        };
-
-        var text = game.add.text(game.world.centerX, game.world.centerY + 50, `${panel.id} scores`, styles);
-        text.anchor.set(0.5);
-        text.scale.y = -1;
-
-        game.add.tween(text).to({
-            alpha: 1
-        }, 500, Phaser.Easing.Linear.None, true);
-
-        var timer = this.game.time.create(game);
-        timer.add(800, function() {
-            var kill = game.add.tween(text).to({
-                alpha: 0
-            }, 2000, Phaser.Easing.Linear.None, true);
-            kill.onComplete.add(function() {
-                text.kill();
-            }, this);
-        }, this);
-
-
     },
     spawnBlock: function() {
 
