@@ -14,7 +14,7 @@ Settings.prototype = {
       this.ivan.anchor.setTo(0.5, 0.5);
       this.ivan.scale.setTo(0.7,0.7);
       this.ivan.name = "ivan";
-        
+      
       //pieter
       this.pieter = game.add.button(game.world.centerX - 300, game.world.centerY - 100, 'pieter', this.pickHead, this);
       this.pieter.anchor.setTo(0.5, 0.5);
@@ -76,13 +76,46 @@ Settings.prototype = {
     
     enableInput: function() {
         this.mute.inputEnabled = true;
+        this.ivan.inputEnabled = true;
+        this.pieter.inputEnabled = true;
+        this.karel.inputEnabled = true;
     },
     
     pickHead: function(head) {
+        //disable double firing of tap event
+        this.ivan.inputEnabled = false;
+        this.pieter.inputEnabled = false;
+        this.karel.inputEnabled = false;
+        
         game.head = head.name;
+        
         var name = head.name.charAt(0).toUpperCase() + head.name.slice(1);
         this.text = "Play With: " + name;
         this.textObj.setText(this.text);
+        
+        switch(head.name) {
+            case "ivan":
+                this.ivan.frame = 1;
+                this.pieter.frame = 0;
+                this.karel.frame = 0;
+                break;
+            case "pieter":
+                this.ivan.frame = 0;
+                this.pieter.frame = 1;
+                this.karel.frame = 0;
+                break;
+            case "karel":
+                this.ivan.frame = 0;
+                this.pieter.frame = 0;
+                this.karel.frame = 1;
+                break;
+        }
+        
+        //enable button again
+        var delay = 50;
+        this.timer = this.game.time.create(this.game);
+        this.timer.add(delay, this.enableInput, this);
+        this.timer.start();
     },
     
     backToMenu: function() {

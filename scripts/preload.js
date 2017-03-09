@@ -6,13 +6,17 @@ Preload.prototype = {
     },
 
     preload: function() {
+        //images
         game.load.image('black', 'assets/images/black.png');
         game.load.image('logo', 'assets/images/logo.png');
         game.load.image('kdg', 'assets/images/kdg.png');
-        game.load.image('ivan', 'assets/images/ivan.png');
-        game.load.image('pieter', 'assets/images/pieter.png');
-        game.load.image('karel', 'assets/images/karel.png');
+        
+        //spritesheets
+        game.load.spritesheet('ivan', 'assets/images/ivan.png', 360, 484);
+        game.load.spritesheet('pieter', 'assets/images/pieter.png', 360, 484);
+        game.load.spritesheet('karel', 'assets/images/karel.png', 360, 484);
 
+        //script
         game.load.script('Panel', 'scripts/classes/Panel.js');
         game.load.script('Ball', 'scripts/classes/Ball.js');
         game.load.script('Block', 'scripts/classes/Block.js');
