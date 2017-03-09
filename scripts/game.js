@@ -60,9 +60,6 @@ Game.prototype = {
         this.ballRotate = game.add.tween(mainBall);
 
         balls.add(mainBall);
-        this.heart = game.add.sprite(500, 500, 'hearts');
-        this.emptyheart = game.add.sprite(560, 500, 'hearts');
-        this.emptyheart.frame = 1;
 
         game.input.onDown.add(function() {
             balls.forEach(function(ball) {
@@ -98,6 +95,7 @@ Game.prototype = {
                 }
             }
         }
+        player1.checkHealthBar();
 
         balls.forEach(function(ball) {
             var dir;
@@ -117,7 +115,7 @@ Game.prototype = {
             if (player) {
                 player.score -= 1;
                 this.checkEnd(player);
-                //player.updateText();
+                //  player.updateText();
                 game.camera.shake(0.001, 500);
                 this.vibrateDevice();
                 ball.reset(dir);
@@ -217,7 +215,7 @@ Game.prototype = {
                 default: //do nothing
                     break;
             }
-            if (kind != 'block') block = new Powerup(game, mapX, mapY, 'health');
+            if (kind != 'block') block = new Powerup(game, mapX, mapY, kind);
             else block = new Block(game, mapX, mapY);
 
             if (block) {

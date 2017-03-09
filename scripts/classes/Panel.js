@@ -1,14 +1,8 @@
 Panel = function(game, x, y, id) {
     Phaser.Sprite.call(this, game, x, y, 'panel');
     this.id = id;
-    this.score = 5;
-    var styles = {
-        font: '64px Verdana',
-        fill: '#FFF'
-    }
-    var textX = 64;
-    var textY = y > game.world.centerY ? game.world.height - 64 - 32 : 64;
-    // this.text = game.add.text(textX, textY, `Health ${this.id}: ${this.score}`, styles)
+    this.health = 4;
+    this.healthBar = [];
     game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
     this.body.immovable = true;
@@ -50,12 +44,29 @@ Panel.prototype.applyEffect = function(effect) {
     }
 }
 
-Panel.prototype.updateText = function() {
-    this.text.setText(`Health ${this.id}: ${this.score}`);
+Panel.prototype.checkHealthBar = function() {
+    for (var m = 0; m < this.healthBar.length; m++) {
+        this.healthBar[m].kill();
+    }
+    this.healthBar = [];
+    var j;
+
+    for (j = 0; j < this.health; j++) {
+        var heart = game.add.sprite(25 * j + 47.5 * j, 500, 'hearts', 0);
+        heart.scale.setTo(1.5, 1.5)
+        this.healthBar.push(heart);
+    }
+
+
+    for (var k = j; k < 5; k++) {
+        var heart = game.add.sprite(25 * k + 47.5 * k, 500, 'hearts', 1);
+        heart.scale.setTo(1.5, 1.5)
+        this.healthBar.push(heart);
+    }
 }
 
 Panel.prototype.addHealth = function() {
-    this.score += 1;
+    this.health += 1;
     this.updateText();
 }
 Panel.prototype.grow = function() {
