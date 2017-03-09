@@ -64,7 +64,7 @@ Settings.prototype = {
       //back to menu button
       this.back = game.add.button(game.world.width - 250, game.world.height - 315, 'back', this.backToMenu, this);
       this.back.scale.setTo(0.5,0.5);
-      this.back.anchor.setTo(0.25, 0.25);
+      this.back.anchor.setTo(0.2, 0.2);
     },
 
     playGame: function() {
