@@ -103,6 +103,7 @@ Game.prototype = {
             }
             if (player) {
                 player.score -= 1;
+                this.checkEnd(player);
                 player.updateText();
                 game.camera.shake(0.001, 500);
                 this.vibrateDevice();
@@ -110,26 +111,24 @@ Game.prototype = {
                 game.paused = true;
             }
         }, this);
-        var head;
-        if (player1.score === 0) {
-            do {
-                head = Phaser.ArrayUtils.getRandomItem(game.heads);
-            } while (game.head == head)
-            game.head = head;
-            game.state.start('P2win');
-        } else if (player2.score === 0) {
-            do {
-                head = Phaser.ArrayUtils.getRandomItem(game.heads);
-            } while (game.head == head)
-            game.head = head;
-            game.state.start('P1win');
-        }
+
         if (!game.paused) {
             if (c >= 120 && c % 120 === 0) {
                 this.spawnBlock();
             }
             c++
         };
+    },
+    checkEnd: function(player) {
+        var head;
+        if (player.score == 0) {
+            do {
+                head = Phaser.ArrayUtils.getRandomItem(game.heads);
+            } while (game.head == head)
+            game.head = head;
+            game.winner = player.id;
+            game.state.start('win');
+        }
     },
     playerScores: function(panel) {
         var styles = {

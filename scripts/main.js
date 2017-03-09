@@ -4,7 +4,6 @@ game.state.add('preload', Preload);
 game.state.add('splash', Splash);
 game.state.add('menu', Menu);
 game.state.add('game', Game);
-game.state.add('P1win', P1win);
-game.state.add('P2win', P2win);
+game.state.add('win', Win);
 
 game.state.start('preload');

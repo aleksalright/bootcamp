@@ -12,8 +12,8 @@ Splash.prototype = {
         game.load.image('ball_pieter', 'assets/images/ball_pieter.png');
         game.load.image('panel', 'assets/images/pallet.png');
         game.load.image('block', 'assets/images/brick.png');
-        game.load.image('P1win', 'assets/images/P1win.png');
-        game.load.image('P2win', 'assets/images/P2win.png');;
+        game.load.image('player1_win', 'assets/images/player1_win.png');
+        game.load.image('player2_win', 'assets/images/player2_win.png');
         game.load.image('fast', 'assets/images/fast.png');
         game.load.image('sad_ivan', 'assets/images/sad_ivan.png');
         game.load.image('background', 'assets/images/background.jpg');

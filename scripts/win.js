@@ -8,11 +8,12 @@ Win.prototype = {
         //ivan
         this.ivan = game.add.sprite(game.world.centerX, game.world.centerY - 100, game.head);
         this.ivan.anchor.setTo(0.5, 0.5);
+        this.ivan.scale.setTo(1, 1);
         this.ivan.angle = -20;
         game.add.tween(this.ivan).to({angle: 20}, 500, null, true, 0, Infinity, true);
 
-        //YOU WIN
-        this.win = game.add.sprite(game.world.centerX, game.world.centerY + 200, 'win');
+        //PLAYER 1 WINS
+        this.win = game.add.sprite(game.world.centerX, game.world.centerY + 200, game.winner + "_win");
         this.win.anchor.setTo(0.5, 0.5);
         this.winSound = game.add.audio('win');
         this.winSound.play();
