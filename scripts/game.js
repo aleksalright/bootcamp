@@ -132,7 +132,7 @@ Game.prototype = {
     },
     playerScores: function(panel) {
         var styles = {
-            fontSize: 50,
+            fontSize: 128,
             align: 'center',
             font: 'Arial',
             fill: 'red',
