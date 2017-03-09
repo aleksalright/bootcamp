@@ -9,6 +9,8 @@ Settings.prototype = {
       this.mute.anchor.setTo(0.5, 0.5);
       this.mute.scale.setTo(0.5,0.5);
         
+      //text test
+        
       //ivan
       this.ivan = game.add.button(game.world.centerX, game.world.centerY - 100, 'ivan', this.pickHead, this);
       this.ivan.anchor.setTo(0.5, 0.5);
@@ -30,8 +32,7 @@ Settings.prototype = {
       //chosen head text
       var name = game.head.charAt(0).toUpperCase() + game.head.slice(1);
       this.text = "Play With: " + name;
-      this.textObj = game.add.text(game.world.centerX, game.world.centerY + 200, this.text);
-      this.textObj.font = "Lobster";
+      this.textObj = game.add.bitmapText(game.world.centerX, game.world.centerY + 200, 'bLobster', this.text);
       this.textObj.fontSize = 175;
       this.textObj.fill = '#ffd200';
       this.textObj.align = 'center';

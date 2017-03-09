@@ -38,6 +38,9 @@ Splash.prototype = {
         //audio
         game.load.audio('pop', 'assets/sounds/pop.mp3');
         game.load.audio('win', 'assets/sounds/win.mp3');
+        
+        //font
+        game.load.bitmapFont('bLobster', 'assets/fonts/font.png', 'assets/fonts/font.fnt');
     },
 
     create: function() {
