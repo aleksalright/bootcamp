@@ -13,7 +13,7 @@ Win.prototype = {
         game.add.tween(this.ivan).to({angle: 20}, 500, null, true, 0, Infinity, true);
 
         //PLAYER 1 WINS
-        this.win = game.add.sprite(game.world.centerX, game.world.centerY + 200, game.winner + "_win");
+        this.win = game.add.sprite(game.world.centerX, game.world.centerY + 200, "player" + game.winner + "_win");
         this.win.anchor.setTo(0.5, 0.5);
         this.winSound = game.add.audio('win');
         this.winSound.play();

@@ -42,8 +42,8 @@ Game.prototype = {
         game.time.advancedTiming = true;
         colors = Phaser.Color.HSVColorWheel();
         index = 0;
-        player1 = new Panel(game, game.world.centerX, 0, 'Player 1');
-        player2 = new Panel(game, game.world.centerX, game.world.height, 'Player 2');
+        player1 = new Panel(game, game.world.centerX, 0, '1');
+        player2 = new Panel(game, game.world.centerX, game.world.height, '2');
         this.panels.add(player1);
         this.panels.add(player2);
         mainBall = new Ball(game, game.world.centerX, game.world.centerY);
